@@ -1,17 +1,22 @@
 const express = require('express');
-const bodyParser = require('body-parser'); // Importe o módulo 'body-parser'.
-const Post = require ('./models/Post') //importar o banco de dados e criar os atributos do banco de dados.
+const bodyParser = require('body-parser'); 
+// Importe o módulo 'body-parser'.
+const Post = require ('./models/Post')
+//importar o banco de dados e criar os atributos do banco de dados.
 
-const app = express(); //atribuir a função do express a uma variavel
+const app = express(); 
+//atribuir a função do express a uma variavel
 
 //TEMPLATE NECESSARIO PARA O SISTEMA PRINCIPAL
 
 // Templante engine
-app.set('view engine', 'ejs'); //template de view engine com a ferramente do ejs
+app.set('view engine', 'ejs'); 
+//template de view engine com a ferramente do ejs
 
 // Template bodyParse
 app.use(bodyParser.urlencoded({ extended: false })); 
-app.use(bodyParser.json()); //transformar o texto do body-parse em um arquivo json
+app.use(bodyParser.json()); 
+//transformar o texto do body-parse em um arquivo json
 
 // Rotas
 
@@ -19,7 +24,8 @@ app.use(bodyParser.json()); //transformar o texto do body-parse em um arquivo js
 
 
 //Rota get inrelevante para o sistema pricipal
-app.get('/', function(req,res){ //rota para a função home, que é um arquivo ejs
+app.get('/', function(req,res){
+    //rota para a função home, que é um arquivo ejs
     Post.findAll()
         .then(function(post){
             console.log(post)
@@ -33,7 +39,8 @@ app.get('/', function(req,res){ //rota para a função home, que é um arquivo e
 
 // Rota para a página do usuário
 app.get('/cad', function (req, res) {
-    res.render('formulario'); //vai redenrizar o formulario
+    res.render('formulario'); 
+    //vai redenrizar o formulario
 });
 
 
@@ -59,20 +66,28 @@ app.post('/add', function (req, res) {
 
 //Rota necessaria 
 //Rota post para os dados irem para o banco
+
 app.post('/add', function(req,res){
+    
     //criar uma tabela com Post, que sera atribuida ao banco de dados
+    
     Post.create({
 
         titulo: req.body.titulo,
         conteudo: req.body.conteudo
     })
+    
     //função para ver se o post deu certo
     //caso a função de certo, o usuario vai ser redirecionado para outra aba
+
+
     .then(function(){
         res.redirect('/')
     })
 
     //caso der certo, vai aparecer uma mensagem informando o seu erro 
+
+
     .catch(function(erro){
         res.send("Houve um erro " + erro)
     })
